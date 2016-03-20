@@ -138,6 +138,9 @@ private class EqualButtonListener implements View.OnClickListener {
                 txtScreen.setText(divide(firstNumber,secondNumber));
                 break;
         }
+        firstNumber = 0;
+        secondNumber = 0;
+        isPopulatingFirstNumber = true;
     }
 }
 }
