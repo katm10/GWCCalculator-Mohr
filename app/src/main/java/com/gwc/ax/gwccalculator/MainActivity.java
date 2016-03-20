@@ -19,36 +19,36 @@ public class MainActivity extends AppCompatActivity {
     // The string of the first number
     private String firstNumberString = "0";
     // The value of the first number
-    private int firstNumber = 0;
+    private double firstNumber = 0;
     // The string of the second number
     private String secondNumberString = "0";
     // The value of the second number
-    private int secondNumber = 0;
+    private double secondNumber = 0;
     // The string of the used operator
     private String operatorString;
     //number on button that was just pressed
-    private int currentButton = 0;
+    private double currentButton = 0;
     //operation to be used
     private int currentOperation = 0;
 
-    public String add(int a, int b){
-        int answer = a + b;
-        return Integer.toString(answer);
+    public String add(double a, double b){
+        double answer = a + b;
+        return Double.toString(answer);
     }
 
-    public String subtract(int a, int b) {
-        int answer = a - b;
-        return Integer.toString(answer);
+    public String subtract(double a, double b) {
+        double answer = a - b;
+        return Double.toString(answer);
     }
 
-    public String multiply(int a, int b){
-        int answer = a * b;
-        return Integer.toString(answer);
+    public String multiply(double a, double b){
+        double answer = a * b;
+        return Double.toString(answer);
     }
 
-    public String divide(int a, int b){
-        int answer = a / b;
-        return Integer.toString(answer);
+    public String divide(double a, double b){
+        double answer = a / b;
+        return Double.toString(answer);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     firstNumber = firstNumber*10 + currentButton;
                 }
-                txtScreen.setText(Integer.toString(firstNumber));
+                txtScreen.setText(Double.toString(firstNumber));
             } else {
                 for (int i = 0; i < 10; i++) {
                     if (findViewById(numericButtons[i]).isPressed()) {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     secondNumber = secondNumber*10+ currentButton;
                 }
-                txtScreen.setText(Integer.toString(secondNumber));
+                txtScreen.setText(Double.toString(secondNumber));
             }
         }
     }
