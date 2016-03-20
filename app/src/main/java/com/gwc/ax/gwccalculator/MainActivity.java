@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-
 public class MainActivity extends AppCompatActivity {
     // IDs of all the numeric buttons
     private int[] numericButtons = {R.id.btnZero, R.id.btnOne, R.id.btnTwo, R.id.btnThree, R.id.btnFour, R.id.btnFive, R.id.btnSix, R.id.btnSeven, R.id.btnEight, R.id.btnNine};
@@ -62,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (isPopulatingFirstNumber) {
-                for (int i = 0; i < 10; i++){
-                    if (findViewById(numericButtons[i]).isPressed()){
+                for (int i = 0; i < 10; i++) {
+                    if (findViewById(numericButtons[i]).isPressed()) {
                         currentButton = i;
                     }
                 }
@@ -73,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
                     firstNumberString += Integer.toString(currentButton);
                 }
                 txtScreen.setText(firstNumberString);
-            }else{
-                for (int i = 0; i < 10; i++){
-                    if (findViewById(numericButtons[i]).isPressed()){
+            } else {
+                for (int i = 0; i < 10; i++) {
+                    if (findViewById(numericButtons[i]).isPressed()) {
                         currentButton = i;
                     }
                 }
@@ -92,29 +91,33 @@ public class MainActivity extends AppCompatActivity {
     private class OperatorButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-           /* for (int i = 0; i < 10; i++){
-                if (findViewById(operatorButtons[i]).isPressed()){
-                    switch (i){
-                        case 0: currentOperation = "add";
+            for (int i = 0; i < 4; i++) {
+                if (findViewById(operatorButtons[i]).isPressed()) {
+                    switch (i) {
+                        case 0:
+                            currentOperation = "add";
                             break;
-                        case 1: currentOperation = "subtract";
+                        case 1:
+                            currentOperation = "subtract";
                             break;
-                        case 2: currentOperation = "multiply";
+                        case 2:
+                            currentOperation = "multiply";
                             break;
-                        case 3: currentOperation = "divide";
+                        case 3:
+                            currentOperation = "divide";
                             break;
                     }
-
                 }
-            }*/
-            isPopulatingFirstNumber = false;
-        }
-    }
+            }
 
-    private class EqualButtonListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            // TODO:  what should happen when one clicks on the equal button?
-        }
+        isPopulatingFirstNumber=false;
     }
+}
+
+private class EqualButtonListener implements View.OnClickListener {
+    @Override
+    public void onClick(View v) {
+        // TODO:  what should happen when one clicks on the equal button?
+    }
+}
 }
