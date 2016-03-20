@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 if (firstNumber == 0) {
                     firstNumber = currentButton;
                 } else {
-                    firstNumber += currentButton;
+                    firstNumber = firstNumber*10 + currentButton;
                 }
                 txtScreen.setText(Integer.toString(firstNumber));
             } else {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 if (secondNumber == 0) {
                     secondNumber = currentButton;
                 } else {
-                    secondNumber += currentButton;
+                    secondNumber = secondNumber*10+ currentButton;
                 }
                 txtScreen.setText(Integer.toString(secondNumber));
             }
@@ -126,16 +126,16 @@ private class EqualButtonListener implements View.OnClickListener {
     public void onClick(View v) {
         switch (currentOperation) {
             case 0:
-                add(firstNumber,secondNumber);
+                txtScreen.setText(add(firstNumber,secondNumber));
                 break;
             case 1:
-                subtract(firstNumber,secondNumber);
+                txtScreen.setText(subtract(firstNumber,secondNumber));
                 break;
             case 2:
-                multiply(firstNumber,secondNumber);
+                txtScreen.setText(multiply(firstNumber,secondNumber));
                 break;
             case 3:
-                divide(firstNumber,secondNumber);
+                txtScreen.setText(divide(firstNumber,secondNumber));
                 break;
         }
     }
