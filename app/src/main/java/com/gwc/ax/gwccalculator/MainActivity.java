@@ -29,7 +29,27 @@ public class MainActivity extends AppCompatActivity {
     //number on button that was just pressed
     private int currentButton = 0;
     //operation to be used
-    private String currentOperation = null;
+    private int currentOperation = 0;
+
+    public String add(int a, int b){
+        int answer = a + b;
+        return Integer.toString(answer);
+    }
+
+    public String subtract(int a, int b) {
+        int answer = a - b;
+        return Integer.toString(answer);
+    }
+
+    public String multiply(int a, int b){
+        int answer = a * b;
+        return Integer.toString(answer);
+    }
+
+    public String divide(int a, int b){
+        int answer = a / b;
+        return Integer.toString(answer);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,24 +86,24 @@ public class MainActivity extends AppCompatActivity {
                         currentButton = i;
                     }
                 }
-                if (firstNumberString == "0") {
-                    firstNumberString = Integer.toString(currentButton);
+                if (firstNumber == 0) {
+                    firstNumber = currentButton;
                 } else {
-                    firstNumberString += Integer.toString(currentButton);
+                    firstNumber += currentButton;
                 }
-                txtScreen.setText(firstNumberString);
+                txtScreen.setText(Integer.toString(firstNumber));
             } else {
                 for (int i = 0; i < 10; i++) {
                     if (findViewById(numericButtons[i]).isPressed()) {
                         currentButton = i;
                     }
                 }
-                if (secondNumberString == "0") {
-                    secondNumberString = Integer.toString(currentButton);
+                if (secondNumber == 0) {
+                    secondNumber = currentButton;
                 } else {
-                    secondNumberString += Integer.toString(currentButton);
+                    secondNumber += currentButton;
                 }
-                txtScreen.setText(secondNumberString);
+                txtScreen.setText(Integer.toString(secondNumber));
             }
         }
     }
@@ -93,20 +113,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = 0; i < 4; i++) {
                 if (findViewById(operatorButtons[i]).isPressed()) {
-                    switch (i) {
-                        case 0:
-                            currentOperation = "add";
-                            break;
-                        case 1:
-                            currentOperation = "subtract";
-                            break;
-                        case 2:
-                            currentOperation = "multiply";
-                            break;
-                        case 3:
-                            currentOperation = "divide";
-                            break;
-                    }
+                    currentOperation = i;
                 }
             }
 
@@ -117,7 +124,20 @@ public class MainActivity extends AppCompatActivity {
 private class EqualButtonListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
-        // TODO:  what should happen when one clicks on the equal button?
+        switch (currentOperation) {
+            case 0:
+                add(firstNumber,secondNumber);
+                break;
+            case 1:
+                subtract(firstNumber,secondNumber);
+                break;
+            case 2:
+                multiply(firstNumber,secondNumber);
+                break;
+            case 3:
+                divide(firstNumber,secondNumber);
+                break;
+        }
     }
 }
 }
