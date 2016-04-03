@@ -3,14 +3,15 @@ package com.gwc.ax.gwccalculator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.EnumMap;
 
 
 public class MainActivity extends AppCompatActivity {
     // IDs of all the numeric buttons
     private int[] numericButtons = {R.id.btnZero, R.id.btnOne, R.id.btnTwo, R.id.btnThree, R.id.btnFour, R.id.btnFive, R.id.btnSix, R.id.btnSeven, R.id.btnEight, R.id.btnNine};
-    // IDs of all the operator buttons
-    private int[] operatorButtons = {R.id.btnAdd, R.id.btnSubtract, R.id.btnMultiply, R.id.btnDivide};
     // TextView used to display the output
     private TextView txtScreen;
     // Are we populating the first or the second number?
@@ -27,30 +28,54 @@ public class MainActivity extends AppCompatActivity {
     private String operatorString;
     //number on button that was just pressed
     private double currentButton = 0;
-    //operation to be used
-    private int currentOperation = 0;
     //answer
     private double answer = 0;
+    private operatorEnum lastOp;
 
-    public Double add(double a, double b) {
-        double answer = a + b;
-        return answer;
+    private abstract class Operator {
+        abstract public double operate(double a, double b);
+        abstract public Button getButton();
     }
 
-    public Double subtract(double a, double b) {
-        double answer = a - b;
-        return answer;
+    private class OperatorAdd extends Operator{
+       public double operate(double a, double b){
+            return a + b;
+        }
+        public Button getButton(){
+            return (Button) findViewById(R.id.btnAdd);
+        }
     }
 
-    public Double multiply(double a, double b) {
-        double answer = a * b;
-        return answer;
+    private class OperatorSub extends Operator{
+        public double operate(double a, double b){
+            return a - b;
+        }
+        public Button getButton(){
+            return (Button) findViewById(R.id.btnSubtract);
+        }
+    }
+    private class OperatorMul extends Operator{
+        public double operate(double a, double b){
+            return a * b;
+        }
+        public Button getButton(){
+            return (Button) findViewById(R.id.btnMultiply);
+        }
+    }
+    private class OperatorDiv extends Operator{
+        public double operate(double a, double b){
+            return a / b;
+        }
+        public Button getButton(){
+            return (Button) findViewById(R.id.btnDivide);
+        }
     }
 
-    public Double divide(double a, double b) {
-        double answer = a / b;
-        return answer;
+    enum operatorEnum {
+        ADD, SUB, MUL, DIV
     }
+
+    EnumMap<operatorEnum, Operator> opArray = new EnumMap<operatorEnum, Operator>(operatorEnum.class);
 
     public void setTxtScreen(double num) {
         if ((double) ((int)num) == num) {
@@ -60,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +94,24 @@ public class MainActivity extends AppCompatActivity {
         txtScreen = (TextView) findViewById(R.id.txtScreen);
         // At the beginning of times, the text shows "0"
         txtScreen.setText("0");
-
+        OperatorButtonListener operatorButtonListener = new OperatorButtonListener();
+        for(operatorEnum op: operatorEnum.values()){
+            switch (op){
+                case ADD:
+                    opArray.put(op,new OperatorAdd());
+                    break;
+                case SUB:
+                   opArray.put(op,new OperatorSub());
+                    break;
+                case MUL:
+                    opArray.put(op, new OperatorMul());
+                    break;
+                case DIV:
+                    opArray.put(op,new OperatorDiv());
+                    break;
+            }
+            opArray.get(op).getButton().setOnClickListener(operatorButtonListener);
+        }
         // All the numeric buttons use the NumericButtonListener listener
         NumericButtonListener numericButtonListener = new NumericButtonListener();
         for (int id : numericButtons) {
@@ -76,10 +119,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // All the operator buttons use the OperatorButtonListener listener
-        OperatorButtonListener operatorButtonListener = new OperatorButtonListener();
-        for (int id : operatorButtons) {
-            findViewById(id).setOnClickListener(operatorButtonListener);
-        }
+
 
         // The equal button uses the EqualButtonListener listener
         EqualButtonListener equalButtonListener = new EqualButtonListener();
@@ -91,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (isPopulatingFirstNumber) {
                 for (int i = 0; i < 10; i++) {
-                    if (findViewById(numericButtons[i]).isPressed()) {
+                    if (findViewById(numericButtons[i])== v) {
                         currentButton = i;
                     }
                 }
@@ -120,10 +160,11 @@ public class MainActivity extends AppCompatActivity {
     private class OperatorButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            for (int i = 0; i < 4; i++) {
-                if (findViewById(operatorButtons[i]) == v ) {
-                    currentOperation = i;
-                }
+            for (operatorEnum op: operatorEnum.values()){
+               if (opArray.get(op).getButton().equals(v)){
+                   lastOp = op;
+                   break;
+               }
             }
 
             isPopulatingFirstNumber = false;
@@ -133,20 +174,7 @@ public class MainActivity extends AppCompatActivity {
     private class EqualButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            switch (currentOperation) {
-                case 0:
-                    answer = add(firstNumber, secondNumber);
-                    break;
-                case 1:
-                    answer = subtract(firstNumber, secondNumber);
-                    break;
-                case 2:
-                    answer = multiply(firstNumber, secondNumber);
-                    break;
-                case 3:
-                    answer = divide(firstNumber, secondNumber);
-                    break;
-            }
+            opArray.get(lastOp).operate(firstNumber,secondNumber);
             setTxtScreen(answer);
             firstNumber = 0;
             secondNumber = 0;
