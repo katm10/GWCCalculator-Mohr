@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             for (int i = 0; i < 4; i++) {
-                if (findViewById(operatorButtons[i]).isPressed()) {
+                if (findViewById(operatorButtons[i]) == v ) {
                     currentOperation = i;
                 }
             }
