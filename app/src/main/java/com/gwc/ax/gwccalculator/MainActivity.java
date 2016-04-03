@@ -3,7 +3,6 @@ package com.gwc.ax.gwccalculator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -30,25 +29,27 @@ public class MainActivity extends AppCompatActivity {
     private double currentButton = 0;
     //operation to be used
     private int currentOperation = 0;
+    //answer
+    private double answer = 0;
 
-    public String add(double a, double b){
+    public Double add(double a, double b) {
         double answer = a + b;
-        return Double.toString(answer);
+        return answer;
     }
 
-    public String subtract(double a, double b) {
+    public Double subtract(double a, double b) {
         double answer = a - b;
-        return Double.toString(answer);
+        return answer;
     }
 
-    public String multiply(double a, double b){
+    public Double multiply(double a, double b) {
         double answer = a * b;
-        return Double.toString(answer);
+        return answer;
     }
 
-    public String divide(double a, double b){
+    public Double divide(double a, double b) {
         double answer = a / b;
-        return Double.toString(answer);
+        return answer;
     }
 
     @Override
@@ -89,9 +90,13 @@ public class MainActivity extends AppCompatActivity {
                 if (firstNumber == 0) {
                     firstNumber = currentButton;
                 } else {
-                    firstNumber = firstNumber*10 + currentButton;
+                    firstNumber = firstNumber * 10 + currentButton;
                 }
-                txtScreen.setText(Double.toString(firstNumber));
+                if ((double) ((int) (firstNumber)) == firstNumber) {
+                    txtScreen.setText(Integer.toString((int) firstNumber));
+                } else {
+                    txtScreen.setText(Double.toString(firstNumber));
+                }
             } else {
                 for (int i = 0; i < 10; i++) {
                     if (findViewById(numericButtons[i]).isPressed()) {
@@ -101,9 +106,13 @@ public class MainActivity extends AppCompatActivity {
                 if (secondNumber == 0) {
                     secondNumber = currentButton;
                 } else {
-                    secondNumber = secondNumber*10+ currentButton;
+                    secondNumber = secondNumber * 10 + currentButton;
                 }
-                txtScreen.setText(Double.toString(secondNumber));
+                if ((double) ((int) (secondNumber)) == secondNumber) {
+                    txtScreen.setText(Integer.toString((int) secondNumber));
+                } else {
+                    txtScreen.setText(Double.toString(secondNumber));
+                }
             }
         }
     }
@@ -117,30 +126,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        isPopulatingFirstNumber=false;
-    }
-}
-
-private class EqualButtonListener implements View.OnClickListener {
-    @Override
-    public void onClick(View v) {
-        switch (currentOperation) {
-            case 0:
-                txtScreen.setText(add(firstNumber,secondNumber));
-                break;
-            case 1:
-                txtScreen.setText(subtract(firstNumber,secondNumber));
-                break;
-            case 2:
-                txtScreen.setText(multiply(firstNumber,secondNumber));
-                break;
-            case 3:
-                txtScreen.setText(divide(firstNumber,secondNumber));
-                break;
+            isPopulatingFirstNumber = false;
         }
-        firstNumber = 0;
-        secondNumber = 0;
-        isPopulatingFirstNumber = true;
     }
-}
+
+    private class EqualButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (currentOperation) {
+                case 0:
+                    answer = add(firstNumber, secondNumber);
+                    break;
+                case 1:
+                    answer = subtract(firstNumber, secondNumber);
+                    break;
+                case 2:
+                    answer = multiply(firstNumber, secondNumber);
+                    break;
+                case 3:
+                    answer = divide(firstNumber, secondNumber);
+                    break;
+            }
+            firstNumber = 0;
+            secondNumber = 0;
+            isPopulatingFirstNumber = true;
+        }
+    }
+
+
 }
