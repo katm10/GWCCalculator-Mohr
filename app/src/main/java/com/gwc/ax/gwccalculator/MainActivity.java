@@ -52,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         return answer;
     }
 
+    public void setTxtScreen(double num) {
+        if ((double) ((int)num) == num) {
+            txtScreen.setText(Integer.toString((int) num));
+        } else {
+            txtScreen.setText(Double.toString(num));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     firstNumber = firstNumber * 10 + currentButton;
                 }
-                if ((double) ((int) (firstNumber)) == firstNumber) {
-                    txtScreen.setText(Integer.toString((int) firstNumber));
-                } else {
-                    txtScreen.setText(Double.toString(firstNumber));
-                }
+                setTxtScreen(firstNumber);
             } else {
                 for (int i = 0; i < 10; i++) {
                     if (findViewById(numericButtons[i]).isPressed()) {
@@ -108,11 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     secondNumber = secondNumber * 10 + currentButton;
                 }
-                if ((double) ((int) (secondNumber)) == secondNumber) {
-                    txtScreen.setText(Integer.toString((int) secondNumber));
-                } else {
-                    txtScreen.setText(Double.toString(secondNumber));
-                }
+                setTxtScreen(secondNumber);
             }
         }
     }
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     answer = divide(firstNumber, secondNumber);
                     break;
             }
+            setTxtScreen(answer);
             firstNumber = 0;
             secondNumber = 0;
             isPopulatingFirstNumber = true;
